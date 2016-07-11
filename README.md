@@ -1,6 +1,8 @@
 # Hammerspoon config
 
-Configuration files for the [Hammerspoon](https://github.com/Hammerspoon/hammerspoon) project. 
+Configuration files for the [Hammerspoon](https://github.com/Hammerspoon/hammerspoon) project.
+
+> _The app switching code is modified from [oskarols](https://github.com/oskarols/dotfiles) hammerspoon configs_
 
 ## Installation
 
