@@ -118,12 +118,13 @@ hs.hotkey.bind(hyper, "Down",function() window_resize("bottom") end)
 --  App switching
 -----------------------------------------------
 
--- hs.hotkey.bind(hyper, "t", launchOrCycleFocus("iTerm"))
+-- single program
 hs.hotkey.bind(hyper, "w", launch_or_cycle_focus("Atom"))
--- hs.hotkey.bind(hyper, "e", launchOrCycleFocus("Atom",))
--- hs.hotkey.bind(hyper, "b", launchOrCycleFocus("Google Chrome"))
 hs.hotkey.bind(hyper, "s", launch_or_cycle_focus("Slack"))
+hs.hotkey.bind(hyper, "h", launch_or_cycle_focus("Dash"))
+hs.hotkey.bind(hyper, "r", launch_or_cycle_focus("RStudio"))
 
+-- app groups
 hs.hotkey.bind(hyper, "b", launch_or_cycle_focus('browser'))
 hs.hotkey.bind(hyper, "e", launch_or_cycle_focus('editor'))
 hs.hotkey.bind(hyper, "t", launch_or_cycle_focus('terminal'))

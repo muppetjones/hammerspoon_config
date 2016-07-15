@@ -11,6 +11,7 @@ end
 local shape_options = {
     BATMAN,
     CAPTAIN,
+    DEATHLY_HALLOWS,
 }
 
 function mouseHighlight()
@@ -24,6 +25,7 @@ function mouseHighlight()
   -- get a shape, draw it, then delete after a delay
   local choice = math.random(1, #shape_options)
   local shape = draw_shape(table.unpack(shape_options[choice]))
+  -- shape = draw_shape(table.unpack(DEATHLY_HALLOWS))
   shape:show()
   local timer = hs.timer.doAfter(0.5, function()
       shape:delete()

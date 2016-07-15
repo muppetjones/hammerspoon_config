@@ -75,6 +75,9 @@ context = {
 local batman = hs.image.imageFromASCII(batman_ascii, context)
 BATMAN = {batman, 120, 120}
 
+-------------------------------------------
+-- Captain America's Shield
+-------------------------------------------
 
 local cap_ascii = [[ASCII:
 @@@@@@.....................................................................@@@@@@
@@ -191,3 +194,54 @@ context = {
 
 local cap = hs.image.imageFromASCII(cap_ascii, context)
 CAPTAIN = {cap, 120, 120}
+
+
+-------------------------------------------
+-- Deathly Hallows
+-------------------------------------------
+
+local hallows_ascii = [[ASCII:
+@@@@@@@@..........@@@@@@@
+@...........A...........@
+@...........E...........@
+@.......................@
+@.......................@
+@.......................@
+@.......................@
+@.......................@
+@...........2...........@
+@.......................@
+@.......................@
+@.......................@
+@.......................@
+@.......................@
+@.......................@
+@.......................@
+@.......................@
+@.......................@
+@.......................@
+......2...........2......
+@B..........E..........C@
+@@@@@@@..........@@@@@@@@
+]]
+
+local line_width = 1
+darker_black = black
+darker_black['alpha'] = 1
+local context = {
+    {
+        strokeColor = darker_black,
+        fillColor = clear,
+        lineWidth = line_width,
+        antialias = true,
+    },
+    {
+        strokeColor = darker_black,
+        fillColor = clear,
+        lineWidth = line_width,
+        antialias = true,
+    },
+}
+
+local hallows = hs.image.imageFromASCII(hallows_ascii, context)
+DEATHLY_HALLOWS = {hallows, 120, 120}
