@@ -11,8 +11,9 @@ require('mouse')
 -- Local variables
 local app_group = {
     browser = {'Google Chrome', 'Firefox'},
-    editor = {'Atom', 'TextWrangler', 'TextEdit'},
-    terminal = {'iTerm2', 'Terminal', 'iTerm'}
+    editor = {'Atom', 'BBEdit'},
+    terminal = {'iTerm2', 'Terminal', 'iTerm'},
+    sql = {'Sequel Pro'}
 }
 local last_group_app = {
     browser = 'Google Chrome',
@@ -26,10 +27,13 @@ function win_info()
         focused = hs.window.focusedWindow()
         if not focused then return nil end
 
-        hs.notify.new({
-            title=focused:key(),
-            informativeText=focused:title()
-        }):send()
+        local app_list = hs.application.runningApplications()
+        print(hs.inspect(app_list))
+
+        -- hs.notify.new({
+        --     title=focused:key(),
+        --     informativeText=focused:title()
+        -- }):send()
 
         -- print(string.format('Window [%s]', focused:key()))
         -- print(string.format('Title:  %s', focused:title()))
@@ -93,9 +97,21 @@ function get_next_window(windows, last_window)
         windows = get_windows(windows)
     end
 
+    -- check for only one option
+    -- > I think there is a hangup when there is only one window
+    if #windows == 1 then
+        return windows[1]
+    end
+
     -- remove dialog boxes and minimized windows, etc.
     windows = fnutils.filter(windows, hs.window.isStandard)
     windows = fnutils.filter(windows, hs.window.isVisible)
+
+    -- check for only one option (again)
+    -- > I think there is a hangup when there is only one window
+    if #windows == 1 then
+        return windows[1]
+    end
 
     -- sort by id (NOT key; descending)
     table.sort(windows, function(w1, w2)
@@ -128,9 +144,9 @@ function launch_or_cycle_focus(app_name)
         local focused_app = focused_win:application():title()
 
         -- if the focused window is from the desired app or group
-        local curr_app_is_desired = app_group[app_name]
-            and fnutils.indexOf(app_group[app_name], focused_app)
-            or focused_app == app_name
+        local curr_app_is_desired = (app_group[app_name]
+            and fnutils.indexOf(app_group[app_name], focused_app))
+            or (focused_app == app_name)
 
         if curr_app_is_desired then
             -- find the next window within the desired app set

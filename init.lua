@@ -22,6 +22,7 @@ require "mouse"
 
 hs.crash.crashLogToNSLog = true
 
+
 -----------------------------------------------
 -- Functions
 -----------------------------------------------
@@ -61,25 +62,55 @@ function _win_bottom(max)
     }
 end
 
+local _resize_direction = {
+    full=_win_full,
+    left=_win_left,
+    right=_win_right,
+    top=_win_top,
+    bottom=_win_bottom
+}
+
+
 function window_resize(direction)
     if hs.window.focusedWindow() then
         local win = hs.window.focusedWindow()
-        local f = win:frame()
         local screen = win:screen()
         local max = screen:frame()
 
-        local _direction = {
-            full=_win_full,
-            left=_win_left,
-            right=_win_right,
-            top=_win_top,
-            bottom=_win_bottom
-        }
+        local frame_rect = _resize_direction[direction](max)
+        win:setFrame(frame_rect)
+    else
+        alert("No focused window.")
+    end
+end
 
-        for k, v in pairs(_direction[direction](max)) do
-            f[k] = v
-        end
-        win:setFrame(f)
+function window_move_east()
+    if hs.window.focusedWindow() then
+        local win = hs.window.focusedWindow()
+        win:moveOneScreenEast()
+        win:setFrame(_win_full(win:screen():frame()))
+    else
+        alert("No focused window.")
+    end
+end
+
+function window_move_west()
+    if hs.window.focusedWindow() then
+        local win = hs.window.focusedWindow()
+        win:moveOneScreenWest()
+        win:setFrame(_win_full(win:screen():frame()))
+    else
+        alert("No focused window.")
+    end
+end
+
+function window_tiling()
+    if hs.window.focusedWindow() then
+        local win = hs.window.focusedWindow()
+        other_win = win:otherWindowsSameScreen()
+        -- other_win["0"] = win
+        table.insert(other_win, win)
+        hs.window.tiling.tileWindows(other_win, _win_full(win:screen():frame()))
     else
         alert("No focused window.")
     end
@@ -91,15 +122,12 @@ end
 
 hs.hotkey.bind(hyper, '\\', function()
     hs.reload()
-    alert("Config loaded.")
+    hs.alert.show("Config loaded.")
+    hs.notify.new({
+        title="Hammerspoon", informativeText="Config reloaded"}):send()
+    -- hs.screen:toEast():notify.new({
+    --     title="Hammerspoon", informativeText="Config reloaded"}):send()
 end)
-
--- hs.urlevent.bind("test1", function(eventName, params)
---     alert('hi')
---     if params["someParam"] then
---         alert(params["someParam"])
---     end
--- end)
 
 hs.hotkey.bind(hyper, 'i', win_info())
 
@@ -109,24 +137,33 @@ hs.hotkey.bind(hyper, 'i', win_info())
 
 l = hs.hotkey.modal.new(hyper, 'l')  -- layout modal
 l:bind({}, 'f', function() window_resize("full") l:exit() end)
+hs.hotkey.bind(hyper, "home", function() window_resize("full") end)
+hs.hotkey.bind(hyper, "end", function() window_tiling() end)
 hs.hotkey.bind(hyper, "Left", function() window_resize("left") end)
-hs.hotkey.bind(hyper, "Right",function() window_resize("right") end)
+hs.hotkey.bind(hyper, "Right", function() window_resize("right") end)
 hs.hotkey.bind(hyper, "Up", function() window_resize("top") end)
-hs.hotkey.bind(hyper, "Down",function() window_resize("bottom") end)
+hs.hotkey.bind(hyper, "Down", function() window_resize("bottom") end)
+hs.hotkey.bind(hyper, "pageup", function() window_move_west() end)
+hs.hotkey.bind(hyper, "pagedown", function() window_move_east() end)
 
 -----------------------------------------------
 --  App switching
 -----------------------------------------------
-
+hs.application.enableSpotlightForNameSearches(true)
 -- single program
+-- hs.hotkey.bind(hyper, "w", launch_or_cycle_focus('PyCharm CE'))
 hs.hotkey.bind(hyper, "w", launch_or_cycle_focus("Atom"))
+  -- "Visual Studio Code"))
 hs.hotkey.bind(hyper, "s", launch_or_cycle_focus("Slack"))
 hs.hotkey.bind(hyper, "h", launch_or_cycle_focus("Dash"))
 hs.hotkey.bind(hyper, "r", launch_or_cycle_focus("RStudio"))
-
+hs.hotkey.bind(hyper, "t", launch_or_cycle_focus('iTerm'))
+hs.hotkey.bind(hyper, "y", launch_or_cycle_focus('Terminal'))
+hs.hotkey.bind(hyper, "m", launch_or_cycle_focus('Postbox'))
+hs.hotkey.bind(hyper, "q", launch_or_cycle_focus('Sequel Pro'))
 -- app groups
 hs.hotkey.bind(hyper, "b", launch_or_cycle_focus('browser'))
 hs.hotkey.bind(hyper, "e", launch_or_cycle_focus('editor'))
-hs.hotkey.bind(hyper, "t", launch_or_cycle_focus('terminal'))
+-- hs.hotkey.bind(hyper, "t", launch_or_cycle_focus('terminal'))
 
 hs.hotkey.bind(hyper, 'j', mouseHighlight)

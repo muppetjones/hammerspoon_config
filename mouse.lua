@@ -8,11 +8,8 @@ function draw_shape(image, w, h)
     return shape
 end
 
-local shape_options = {
-    BATMAN,
-    CAPTAIN,
-    DEATHLY_HALLOWS,
-}
+local shape_options = IMAGES_TABLE
+local next_shape = 1
 
 function mouseHighlight()
   -- Delete an existing highlight if it exists
@@ -24,12 +21,19 @@ function mouseHighlight()
 
   -- get a shape, draw it, then delete after a delay
   local choice = math.random(1, #shape_options)
-  local shape = draw_shape(table.unpack(shape_options[choice]))
-  -- shape = draw_shape(table.unpack(DEATHLY_HALLOWS))
+  local shape = draw_shape(shape_options[choice][1], 120, 120)
+  -- shape = draw_shape(WHITE_LANTERN[1], 460, 460)
   shape:show()
   local timer = hs.timer.doAfter(0.5, function()
       shape:delete()
   end)
+
+  if next_shape == #shape_options then
+    next_shape = 1
+  else
+    next_shape = next_shape + 1
+  end
+
 
 end
 
