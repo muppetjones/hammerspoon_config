@@ -4,7 +4,7 @@
 -----------------------------------------------
 
 local hyper = {"shift", "cmd", "alt", "ctrl"}
-hs.window.animationDuration = 0  -- disable animations
+hs.window.animationDuration = 0 -- disable animations
 
 require("hs.application")
 require("hs.window")
@@ -19,6 +19,7 @@ local filter = fnutils.filter
 -- require "extensions"
 require "app_cycle"
 require "mouse"
+require "keyboard"
 
 hs.crash.crashLogToNSLog = true
 
@@ -36,38 +37,38 @@ end
 --
 
 function _win_full(max)
-    return {x=max.x, y=max.y, w=max.w, h=max.h}
+    return {x = max.x, y = max.y, w = max.w, h = max.h}
 end
 
 
 function _win_left(max)
-    return {x=max.x, y=max.y, w=max.w / 2, h=max.h}
+    return {x = max.x, y = max.y, w = max.w / 2, h = max.h}
 end
 
 function _win_right(max)
     return {
-        x=max.x + (max.w / 2), y=max.y,
-        w=max.w / 2, h=max.h
+        x = max.x + (max.w / 2), y = max.y,
+        w = max.w / 2, h = max.h
     }
 end
 
 function _win_top(max)
-    return {x=max.x, y=max.y, w=max.w, h=max.h / 2}
+    return {x = max.x, y = max.y, w = max.w, h = max.h / 2}
 end
 
 function _win_bottom(max)
     return {
-        x=max.x, y=max.y + (max.h / 2),
-        w=max.w, h=max.h /2
+        x = max.x, y = max.y + (max.h / 2),
+        w = max.w, h = max.h / 2
     }
 end
 
 local _resize_direction = {
-    full=_win_full,
-    left=_win_left,
-    right=_win_right,
-    top=_win_top,
-    bottom=_win_bottom
+    full = _win_full,
+    left = _win_left,
+    right = _win_right,
+    top = _win_top,
+    bottom = _win_bottom
 }
 
 
@@ -124,7 +125,7 @@ hs.hotkey.bind(hyper, '\\', function()
     hs.reload()
     hs.alert.show("Config loaded.")
     hs.notify.new({
-        title="Hammerspoon", informativeText="Config reloaded"}):send()
+    title = "Hammerspoon", informativeText = "Config reloaded"}):send()
     -- hs.screen:toEast():notify.new({
     --     title="Hammerspoon", informativeText="Config reloaded"}):send()
 end)
@@ -132,10 +133,17 @@ end)
 hs.hotkey.bind(hyper, 'i', win_info())
 
 -----------------------------------------------
+--  Keyboard Layout
+-----------------------------------------------
+
+hs.hotkey.bind(hyper, "=", showKeyboardLayout)
+hs.hotkey.bind(hyper, "0", switchKeyboardLayout)
+
+-----------------------------------------------
 --  Window movement
 -----------------------------------------------
 
-l = hs.hotkey.modal.new(hyper, 'l')  -- layout modal
+l = hs.hotkey.modal.new(hyper, 'l') -- layout modal
 l:bind({}, 'f', function() window_resize("full") l:exit() end)
 hs.hotkey.bind(hyper, "home", function() window_resize("full") end)
 hs.hotkey.bind(hyper, "end", function() window_tiling() end)
@@ -152,18 +160,43 @@ hs.hotkey.bind(hyper, "pagedown", function() window_move_east() end)
 hs.application.enableSpotlightForNameSearches(true)
 -- single program
 -- hs.hotkey.bind(hyper, "w", launch_or_cycle_focus('PyCharm CE'))
-hs.hotkey.bind(hyper, "w", launch_or_cycle_focus("Atom"))
-  -- "Visual Studio Code"))
+-- hs.hotkey.bind(hyper, "w", launch_or_cycle_focus("Sublime Text"))
+
+-- web editor
+hs.hotkey.bind(hyper, "w", launch_or_cycle_focus("Visual Studio Code"))
+
+-- editor
+hs.hotkey.bind(hyper, "e", launch_or_cycle_focus("Atom"))
+
+-- text wrangler...reference...general text editor
+hs.hotkey.bind(hyper, "r", launch_or_cycle_focus("BBedit"))
+
+-- slack
 hs.hotkey.bind(hyper, "s", launch_or_cycle_focus("Slack"))
+
+-- help
 hs.hotkey.bind(hyper, "h", launch_or_cycle_focus("Dash"))
-hs.hotkey.bind(hyper, "r", launch_or_cycle_focus("RStudio"))
+
+-- api development
+hs.hotkey.bind(hyper, "a", launch_or_cycle_focus("Postman"))
+
+--hs.hotkey.bind(hyper, "r", launch_or_cycle_focus("RStudio"))
+
+-- terminals
 hs.hotkey.bind(hyper, "t", launch_or_cycle_focus('iTerm'))
 hs.hotkey.bind(hyper, "y", launch_or_cycle_focus('Terminal'))
-hs.hotkey.bind(hyper, "m", launch_or_cycle_focus('Postbox'))
-hs.hotkey.bind(hyper, "q", launch_or_cycle_focus('Sequel Pro'))
+
+-- math
+hs.hotkey.bind(hyper, "m", launch_or_cycle_focus('Rstudio'))
+
+
+-- query, SQL
+-- hs.hotkey.bind(hyper, "q", launch_or_cycle_focus('Sequel Pro'))
+hs.hotkey.bind(hyper, "q", launch_or_cycle_focus('DataGrip'))
+
 -- app groups
-hs.hotkey.bind(hyper, "b", launch_or_cycle_focus('browser'))
-hs.hotkey.bind(hyper, "e", launch_or_cycle_focus('editor'))
+hs.hotkey.bind(hyper, "b", launch_or_cycle_focus('Google Chrome'))
+-- hs.hotkey.bind(hyper, "e", launch_or_cycle_focus('editor'))
 -- hs.hotkey.bind(hyper, "t", launch_or_cycle_focus('terminal'))
 
 hs.hotkey.bind(hyper, 'j', mouseHighlight)
