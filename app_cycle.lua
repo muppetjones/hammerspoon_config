@@ -3,6 +3,7 @@ require("hs.mouse")
 
 local fnutils = require("hs.fnutils")
 local wf = require("hs.window.filter")
+local scr = require("hs.screen");
 local geometry = require "hs.geometry"
 
 require('util')
@@ -19,6 +20,12 @@ local last_group_app = {
     browser = 'Google Chrome',
     editor = 'Atom',
     terminal = 'iTerm2'
+}
+
+local appFilters = {
+    Atom = wf.new{'Atom'}:setAppFilter('Atom', {visible = true, currentSpace = nil, allowScreens = {'0,0', '1,0', '-1,0'}}),
+    iTerm = wf.new{'iTerm'},
+    Slack = wf.new{'Slack'}
 }
 
 -- Get window info
@@ -45,7 +52,7 @@ end
 function filter_info(app_name)
     app_filter = (app_group[app_name]
         and wf.new{table.unpack(app_group[app_name])}
-        or wf.new{app_name})
+    or wf.new{app_name})
 
     print(app_name)
     for i, v in ipairs(app_filter:getFilters()) do
@@ -59,12 +66,12 @@ end
 -- Create a unique string for a window
 -- @returns string
 function hs.window:key()
-  local app_name = compose(
-    getProperty("application"),
-    getProperty("title")
-  )(self)
+    local app_name = compose(
+        getProperty("application"),
+        getProperty("title")
+    )(self)
 
-  return string.format("%s:%s", app_name, self:id())
+    return string.format("%s:%s", app_name, self:id())
 end
 
 
@@ -80,9 +87,10 @@ end
 -- Get all window objects, regardless of space
 function get_windows(app_name)
     -- create a window filter based on app and return windows
-    app_filter = (app_group[app_name]
-        and wf.new{table.unpack(app_group[app_name])}
-        or wf.new{app_name})
+    app_filter = (appFilters[app_name] or wf.new{app_name})
+    -- app_filter = (app_group[app_name]
+    --     and wf.new{table.unpack(app_group[app_name])}
+    --     or wf.new{app_name})
     return app_filter:getWindows()
 end
 
@@ -115,7 +123,7 @@ function get_next_window(windows, last_window)
 
     -- sort by id (NOT key; descending)
     table.sort(windows, function(w1, w2)
-      return w1:id() > w2:id()
+        return w1:id() > w2:id()
     end)
 
     -- get index of last window
@@ -127,7 +135,7 @@ function get_next_window(windows, last_window)
 end
 
 function hs.mouse.centerOnRect(rect)
-  hs.mouse.setAbsolutePosition(geometry.rectMidPoint(rect))
+    hs.mouse.setAbsolutePosition(geometry.rectMidPoint(rect))
 end
 
 -- Launch app or go to next app window
@@ -145,8 +153,8 @@ function launch_or_cycle_focus(app_name)
 
         -- if the focused window is from the desired app or group
         local curr_app_is_desired = (app_group[app_name]
-            and fnutils.indexOf(app_group[app_name], focused_app))
-            or (focused_app == app_name)
+        and fnutils.indexOf(app_group[app_name], focused_app))
+        or (focused_app == app_name)
 
         if curr_app_is_desired then
             -- find the next window within the desired app set

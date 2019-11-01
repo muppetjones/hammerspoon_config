@@ -20,6 +20,8 @@ local filter = fnutils.filter
 require "app_cycle"
 require "mouse"
 require "keyboard"
+require "switchWindows"
+-- require "switchEditor"
 
 hs.crash.crashLogToNSLog = true
 
@@ -169,7 +171,7 @@ hs.hotkey.bind(hyper, "w", launch_or_cycle_focus("Visual Studio Code"))
 hs.hotkey.bind(hyper, "e", launch_or_cycle_focus("Atom"))
 
 -- text wrangler...reference...general text editor
-hs.hotkey.bind(hyper, "r", launch_or_cycle_focus("BBedit"))
+-- hs.hotkey.bind(hyper, "r", launch_or_cycle_focus("BBedit"))
 
 -- slack
 hs.hotkey.bind(hyper, "s", launch_or_cycle_focus("Slack"))
