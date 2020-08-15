@@ -17,6 +17,7 @@ local filter = fnutils.filter
 
 -- require "fntools"
 -- require "extensions"
+appcycle = require "appcycle2"
 require "app_cycle"
 require "mouse"
 require "keyboard"
@@ -24,6 +25,13 @@ require "switchWindows"
 -- require "switchEditor"
 
 hs.crash.crashLogToNSLog = true
+
+-----------------------------------------------
+-- Filters
+-----------------------------------------------
+
+-- fix "Warning: wfilter: No accessibility access to app"
+hs.window.filter.ignoreAlways['Sourcetree Networking'] = true
 
 
 -----------------------------------------------
@@ -119,6 +127,24 @@ function window_tiling()
     end
 end
 
+function window_id()
+    local fw = hs.window.focusedWindow()
+    if fw == nil then
+        alert("No focused window.")
+    else
+        local bundleID = hs.window.focusedWindow():application():bundleID()
+        local info = hs.application.infoForBundleID(bundleID)
+        hs.alert.show(bundleID)
+        hs.alert.show(info['CFBundleName'])
+        -- hs.alert.show(info['CFBundleDisplayName'])
+        hs.pasteboard.setContents(bundleID)
+
+        for key, value in pairs(info) do
+            print('\t', key, value)
+        end
+    end
+end
+
 -----------------------------------------------
 -- Reload config
 -----------------------------------------------
@@ -168,13 +194,14 @@ hs.application.enableSpotlightForNameSearches(true)
 hs.hotkey.bind(hyper, "w", launch_or_cycle_focus("Visual Studio Code"))
 
 -- editor
-hs.hotkey.bind(hyper, "e", launch_or_cycle_focus("Atom"))
+hs.hotkey.bind(hyper, "e", appcycle.createClosure("Atom"))
+-- hs.hotkey.bind(hyper, "e", launch_or_cycle_focus("Atom"))
 
 -- text wrangler...reference...general text editor
 -- hs.hotkey.bind(hyper, "r", launch_or_cycle_focus("BBedit"))
 
 -- slack
-hs.hotkey.bind(hyper, "s", launch_or_cycle_focus("Slack"))
+hs.hotkey.bind(hyper, "s", appcycle.createClosure("Slack"))
 
 -- help
 hs.hotkey.bind(hyper, "h", launch_or_cycle_focus("Dash"))
@@ -185,8 +212,8 @@ hs.hotkey.bind(hyper, "a", launch_or_cycle_focus("Postman"))
 --hs.hotkey.bind(hyper, "r", launch_or_cycle_focus("RStudio"))
 
 -- terminals
-hs.hotkey.bind(hyper, "t", launch_or_cycle_focus('iTerm'))
-hs.hotkey.bind(hyper, "y", launch_or_cycle_focus('Terminal'))
+hs.hotkey.bind(hyper, "t", appcycle.createClosure('iTerm2'))
+hs.hotkey.bind(hyper, "y", appcycle.createClosure('Terminal'))
 
 -- math
 hs.hotkey.bind(hyper, "m", launch_or_cycle_focus('Rstudio'))
@@ -194,11 +221,15 @@ hs.hotkey.bind(hyper, "m", launch_or_cycle_focus('Rstudio'))
 
 -- query, SQL
 -- hs.hotkey.bind(hyper, "q", launch_or_cycle_focus('Sequel Pro'))
-hs.hotkey.bind(hyper, "q", launch_or_cycle_focus('DataGrip'))
+hs.hotkey.bind(hyper, "q", appcycle.createClosure('com.jetbrains.datagrip'))
 
 -- app groups
-hs.hotkey.bind(hyper, "b", launch_or_cycle_focus('Google Chrome'))
+hs.hotkey.bind(hyper, "b", appcycle.createClosure('Google Chrome'))
 -- hs.hotkey.bind(hyper, "e", launch_or_cycle_focus('editor'))
 -- hs.hotkey.bind(hyper, "t", launch_or_cycle_focus('terminal'))
 
 hs.hotkey.bind(hyper, 'j', mouseHighlight)
+
+
+-- show the bundleid of the currently open window
+hs.hotkey.bind(hyper, "i", window_id)
