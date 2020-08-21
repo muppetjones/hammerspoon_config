@@ -18,7 +18,7 @@ local filter = fnutils.filter
 -- require "fntools"
 -- require "extensions"
 appcycle = require "appcycle2"
-require "app_cycle"
+-- require "app_cycle"
 require "mouse"
 require "keyboard"
 require "switchWindows"
@@ -158,7 +158,7 @@ hs.hotkey.bind(hyper, '\\', function()
     --     title="Hammerspoon", informativeText="Config reloaded"}):send()
 end)
 
-hs.hotkey.bind(hyper, 'i', win_info())
+-- hs.hotkey.bind(hyper, 'i', win_info())
 
 -----------------------------------------------
 --  Keyboard Layout
@@ -191,7 +191,7 @@ hs.application.enableSpotlightForNameSearches(true)
 -- hs.hotkey.bind(hyper, "w", launch_or_cycle_focus("Sublime Text"))
 
 -- web editor
-hs.hotkey.bind(hyper, "w", launch_or_cycle_focus("Visual Studio Code"))
+hs.hotkey.bind(hyper, "w", appcycle.createClosure("com.microsoft.VSCode"))
 
 -- editor
 hs.hotkey.bind(hyper, "e", appcycle.createClosure("Atom"))
@@ -204,10 +204,10 @@ hs.hotkey.bind(hyper, "e", appcycle.createClosure("Atom"))
 hs.hotkey.bind(hyper, "s", appcycle.createClosure("Slack"))
 
 -- help
-hs.hotkey.bind(hyper, "h", launch_or_cycle_focus("Dash"))
+-- hs.hotkey.bind(hyper, "h", launch_or_cycle_focus("Dash"))
 
 -- api development
-hs.hotkey.bind(hyper, "a", launch_or_cycle_focus("Postman"))
+-- hs.hotkey.bind(hyper, "a", launch_or_cycle_focus("Postman"))
 
 --hs.hotkey.bind(hyper, "r", launch_or_cycle_focus("RStudio"))
 
@@ -216,7 +216,7 @@ hs.hotkey.bind(hyper, "t", appcycle.createClosure('iTerm2'))
 hs.hotkey.bind(hyper, "y", appcycle.createClosure('Terminal'))
 
 -- math
-hs.hotkey.bind(hyper, "m", launch_or_cycle_focus('Rstudio'))
+-- hs.hotkey.bind(hyper, "m", launch_or_cycle_focus('Rstudio'))
 
 
 -- query, SQL
