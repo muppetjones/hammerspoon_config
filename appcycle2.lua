@@ -85,9 +85,12 @@ function This.createAppIter(bundleID, i)
 end
 
 function This.createAppFilter(bundleID)
-    local info = hs.application.infoForBundleID(bundleID)
-    print(string.format('[cAF] create filter: %s > %s', bundleID, info['CFBundleName']))
-    local name = info['CFBundleExecutable']
+    local name = hs.application.nameForBundleID(bundleID)
+    if name == nil then
+        print('-- nil info for ' .. bundleID)
+    end
+    print(string.format('[cAF] create filter: %s > %s', bundleID, name))
+    -- local name = info['CFBundleExecutable']
     local filter = wf.new(name)
     filter:subscribe(wf.windowsChanged, function() This.refreshAppIter(bundleID) end)
     return filter

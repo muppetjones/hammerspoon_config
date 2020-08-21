@@ -213,7 +213,7 @@ hs.hotkey.bind(hyper, "s", appcycle.createClosure("Slack"))
 
 -- terminals
 hs.hotkey.bind(hyper, "t", appcycle.createClosure('iTerm2'))
-hs.hotkey.bind(hyper, "y", appcycle.createClosure('Terminal'))
+-- hs.hotkey.bind(hyper, "y", appcycle.createClosure('Terminal'))
 
 -- math
 -- hs.hotkey.bind(hyper, "m", launch_or_cycle_focus('Rstudio'))
