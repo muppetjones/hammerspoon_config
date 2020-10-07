@@ -194,14 +194,14 @@ hs.application.enableSpotlightForNameSearches(true)
 hs.hotkey.bind(hyper, "w", appcycle.createClosure("com.microsoft.VSCode"))
 
 -- editor
-hs.hotkey.bind(hyper, "e", appcycle.createClosure("Atom"))
+hs.hotkey.bind(hyper, "e", appcycle.createClosure("com.github.atom"))
 -- hs.hotkey.bind(hyper, "e", launch_or_cycle_focus("Atom"))
 
 -- text wrangler...reference...general text editor
 -- hs.hotkey.bind(hyper, "r", launch_or_cycle_focus("BBedit"))
 
 -- slack
-hs.hotkey.bind(hyper, "s", appcycle.createClosure("Slack"))
+hs.hotkey.bind(hyper, "s", appcycle.createClosure("com.tinyspeck.slackmacgap"))
 
 -- help
 -- hs.hotkey.bind(hyper, "h", launch_or_cycle_focus("Dash"))
@@ -212,7 +212,7 @@ hs.hotkey.bind(hyper, "s", appcycle.createClosure("Slack"))
 --hs.hotkey.bind(hyper, "r", launch_or_cycle_focus("RStudio"))
 
 -- terminals
-hs.hotkey.bind(hyper, "t", appcycle.createClosure('iTerm2'))
+hs.hotkey.bind(hyper, "t", appcycle.createClosure('com.googlecode.iterm2'))
 -- hs.hotkey.bind(hyper, "y", appcycle.createClosure('Terminal'))
 
 -- math
@@ -224,7 +224,7 @@ hs.hotkey.bind(hyper, "t", appcycle.createClosure('iTerm2'))
 hs.hotkey.bind(hyper, "q", appcycle.createClosure('com.jetbrains.datagrip'))
 
 -- app groups
-hs.hotkey.bind(hyper, "b", appcycle.createClosure('Google Chrome'))
+hs.hotkey.bind(hyper, "b", appcycle.createClosure('com.google.Chrome'))
 -- hs.hotkey.bind(hyper, "e", launch_or_cycle_focus('editor'))
 -- hs.hotkey.bind(hyper, "t", launch_or_cycle_focus('terminal'))
 
