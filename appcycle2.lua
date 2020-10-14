@@ -42,8 +42,9 @@ end
 function This.createClosure(nameOrBundleID)
     local bundleID = This.getBundleID(nameOrBundleID)
     print(string.format('[appCycle] %s -> %s', nameOrBundleID, bundleID))
-    filter = This.createAppFilter(bundleID)
-    iter = This.createAppIter(bundleID)
+    local filter = This.createAppFilter(bundleID)
+    local iter = This.createAppIter(bundleID)
+    print(string.format('[appCycle] iter: %s', iter))
 
     This.setAppFilter(bundleID, filter)
     This.setAppIter(bundleID, iter)
@@ -92,6 +93,8 @@ function This.createAppFilter(bundleID)
     print(string.format('[cAF] create filter: %s > %s', bundleID, name))
     -- local name = info['CFBundleExecutable']
     local filter = wf.new(name)
+
+    -- I _think_ this is not only unnecessary, but causing bloat
     filter:subscribe(wf.windowsChanged, function() This.refreshAppIter(bundleID) end)
     return filter
 end
@@ -121,7 +124,8 @@ end
 
 function This.getAppWindows(bundleID)
     print('[gAW] bundleID: ' .. bundleID)
-    return This.getAppFilter(bundleID):getWindows(hs.window.filter.sortByFocusedLast)
+    local filter = This.getAppFilter(bundleID)
+    return filter:getWindows(hs.window.filter.sortByFocusedLast)
 end
 
 

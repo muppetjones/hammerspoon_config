@@ -17,8 +17,9 @@ local filter = fnutils.filter
 
 -- require "fntools"
 -- require "extensions"
-appcycle = require "appcycle2"
 -- require "app_cycle"
+-- appcycle = require "appcycle2"
+appcycle = require "appcyle3"
 require "mouse"
 require "keyboard"
 require "switchWindows"
@@ -151,11 +152,15 @@ end
 
 hs.hotkey.bind(hyper, '\\', function()
     hs.reload()
-    hs.alert.show("Config loaded.")
+    -- hs.notify.show("Hammerspoon", nil, "Config reloaded"):send()
     hs.notify.new({
-    title = "Hammerspoon", informativeText = "Config reloaded"}):send()
+        title = "Hammerspoon",
+        informativeText = "Config reloaded"
+    }):withdrawAfter(2):send()
+    hs.alert.show("Config loaded.")
     -- hs.screen:toEast():notify.new({
-    --     title="Hammerspoon", informativeText="Config reloaded"}):send()
+    --     title = "Hammerspoon", informativeText = "Config reloaded"
+    -- }):send()
 end)
 
 -- hs.hotkey.bind(hyper, 'i', win_info())
